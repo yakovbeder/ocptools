@@ -53,3 +53,11 @@ type: Opaque
 ```
 
 ---
+
+## 📺 Demo
+
+[![Watch the video](https://img.youtube.com/vi/DbwVKsgmwMY/hqdefault.jpg)](https://youtu.be/DbwVKsgmwMY)
+
+Click the image above or the link below to see the script in action:
+
+👉 https://youtu.be/DbwVKsgmwMY
