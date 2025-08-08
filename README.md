@@ -9,5 +9,4 @@ This repository includes personal configuration files and helper scripts:
    - **Metadata Control**: Optionally preserve labels and annotations
    - **Progress Tracking**: Real-time feedback for bulk operations
    - **Enhanced Safety**: Comprehensive error handling and validation
-   - **Performance**: 70-85% faster for bulk operations
    - **Clean Output**: Removes unnecessary metadata for GitOps workflows
