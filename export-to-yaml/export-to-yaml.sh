@@ -19,7 +19,7 @@ NC='\033[0m' # No Color
 
 # Global variables
 SCRIPT_VERSION="3.0"
-VERBOSE=false
+VERBOSE=true
 DRY_RUN=false
 BACKUP_DIR=""
 QUIET=false
@@ -38,7 +38,7 @@ print_error() {
 }
 
 print_debug() {
-    [[ "$VERBOSE" == true ]] && echo -e "${BLUE}[DEBUG]${NC} $1"
+    [[ "$VERBOSE" == true && "$QUIET" != true ]] && echo -e "${BLUE}[DEBUG]${NC} $1"
 }
 
 print_success() {
@@ -51,15 +51,15 @@ show_usage() {
 Usage: $0 <resource> <name> [options]
 
 Arguments:
-  resource    Kubernetes resource type (e.g., secret, configmap, deployment)
+  resource    Kubernetes resource type (e.g., secret, configmap, deployment, svc, pvc)
   name        Name of the resource (use 'all' for all resources of type)
 
 Options:
   -n, --namespace <namespace>    Specify namespace (default: current context)
   -o, --output <file>            Output file (default: stdout)
   -f, --force                    Overwrite output file if it exists
-  -v, --verbose                  Enable verbose output
-  -q, --quiet                    Suppress non-error output
+  -v, --verbose                  Enable verbose output (enabled by default)
+  -q, --quiet                    Suppress non-error output (overrides verbose)
   -d, --dry-run                  Show what would be done without doing it
   -b, --backup <dir>             Create backup before overwriting
   -k, --keep-labels              Keep metadata.labels (default: remove)
@@ -67,19 +67,45 @@ Options:
   -h, --help                     Show this help message
   --version                      Show version information
 
-Examples:
-  $0 secret my-secret
-  $0 configmap my-config -n my-namespace
-  $0 deployment my-app -o my-app.yaml
-  $0 pvc my-pvc -n storage -o my-pvc.yaml -f
-  $0 secret all -n my-namespace -o secrets.yaml
-  $0 deployment all -n default -o deployments.yaml -b ./backups
+Basic Examples:
+  $0 secret my-secret                           # Export to stdout
+  $0 svc metallb-ingress -n openshift-ingress   # Export service to stdout
+  $0 configmap my-config -n my-namespace        # Export configmap to stdout
+  $0 deployment my-app -o my-app.yaml           # Export to file
+  $0 pvc my-pvc -n storage -o my-pvc.yaml -f    # Export with force overwrite
 
-Advanced Features:
+Advanced Examples:
+  $0 secret all -n my-namespace -o secrets.yaml     # Export all secrets
+  $0 deployment all -n default -o deployments.yaml  # Export all deployments
+  $0 svc all -n kube-system -o services.yaml        # Export all services
+  $0 configmap my-config -o config.yaml -b ./backups # Export with backup
+
+Special Features:
   - Export all resources of a type: $0 secret all -n my-namespace
   - Dry run mode: $0 deployment my-app -d
   - Backup before overwrite: $0 configmap my-config -o config.yaml -b ./backups
   - Keep specific metadata: $0 secret my-secret -k -a
+  - Quiet mode: $0 svc my-service -q               # Suppress all output except errors
+  - Force overwrite: $0 deployment my-app -o app.yaml -f
+
+Resource Types Supported:
+  - deployments, deployment, deploy
+  - services, service, svc
+  - configmaps, configmap, cm
+  - secrets, secret
+  - persistentvolumeclaims, pvc
+  - persistentvolumes, pv
+  - pods, pod, po
+  - namespaces, namespace, ns
+  - ingresses, ingress, ing
+  - routes, route
+  - And all other Kubernetes/OpenShift resource types
+
+Output Behavior:
+  - Verbose mode (default): Shows progress, debug info, and success messages
+  - Quiet mode (-q): Suppresses all output except errors
+  - File output (-o): Saves to file instead of stdout
+  - Force (-f): Overwrites existing files without prompting
 
 EOF
 }
