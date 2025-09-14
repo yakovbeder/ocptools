@@ -1,0 +1,35 @@
+extends: default
+
+rules:
+  trailing-spaces:
+    level: "error"
+
+  indentation:
+    level: "warning"
+    spaces: 2
+    indent-sequences: true
+
+  line-length:
+    level: "warning"
+    max: 80
+    allow-non-breakable-words: true
+    allow-non-breakable-inline-mappings: true
+
+  key-duplicates: enable
+
+  document-start: disable
+  document-end: disable
+
+  comments:
+    level: "warning"
+    require-starting-space: true
+
+  empty-lines:
+    level: "warning"
+    max: 2
+    max-start: 1
+    max-end: 1
+
+ignore: |
+  .venv
+  build/*
