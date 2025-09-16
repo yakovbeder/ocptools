@@ -19,6 +19,7 @@ git clone https://github.com/dense-analysis/ale.git          # linting
 git clone https://github.com/pearofducks/ansible-vim.git     # Ansible syntax
 git clone https://github.com/Yggdroot/indentLine.git         # indent guides
 git clone https://github.com/morhetz/gruvbox.git             # colorscheme
+git clone https://github.com/pedrohdz/vim-yaml-folds.git     # YAML folding
 ```
 
 ### 3. Install yamllint
